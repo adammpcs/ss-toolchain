@@ -41,6 +41,7 @@ import PDFEmbed from '~/components/PDFEmbed'
 import Gallery from '~/components/Gallery'
 import ThreeColumnFeature from '~/components/ThreeColumnFeature'
 import { PAGE_QUERY } from '~/queries'
+import { mapState, mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -51,36 +52,37 @@ export default {
     ThreeColumnFeature
   },
   computed: {
-  },
-  apollo: {
-    page: {
-      query: PAGE_QUERY,
-      prefetch() {
-        return {
-          slug: 'home'
-        }
-      },
-      variables() {
-        return {
-          slug: 'home'
-        }
-      }
+    ...mapGetters({ data: 'content/all'}),
+    page() {
+      return (this.data) ? this.data.find(s => s.id === 'home').data : {}
     }
   },
+  head() {
+    const storeData = this.$store.getters['content/all']
+    const pageData = storeData.find(s => s.id === 'home').data
+    if (pageData && pageData.metaTags) {
+      const meta = {
+        title: pageData.metaTags.title,
+        meta: [
+          { hid: 'description', name: 'description', content: pageData.metaTags.description }          
+        ]
+      };
+      if (pageData.metaTags.image !== null) {
+        meta.meta.push({ hid: 'og:image', name: 'og:image', content: pageData.metaTags.image.url + '?h=300&w=560&auto=enhance'})
+      }
+      return meta;
+    } else {
+      return {};
+    }
+  },
+  async asyncData ({ route, app, store }) {
+    let { data } = await app.apolloProvider.defaultClient.query({ query: PAGE_QUERY, variables: { slug: 'home' } });
+    store.dispatch('content/addContent', { id: 'home', data: data.page })
+  }
 }
 </script>
 
 <style>
-
-.title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
 
 .subtitle {
   font-weight: 300;
@@ -93,4 +95,18 @@ export default {
 .links {
   padding-top: 15px;
 }
+
+.title {
+  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
+    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  display: block;
+  font-weight: 300;
+  font-size: 100px;
+  color: #35495e;
+  letter-spacing: 1px;
+}
+
+</style>
+
+<style scoped>
 </style>

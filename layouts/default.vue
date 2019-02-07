@@ -2,12 +2,12 @@
   <sui-container fluid text-align="left">
     <div id="site-wrapper">
       <header>
-        <sui-menu pointing secondary v-if="!$apollo.loading && menuPrimaryNavigation && menuPrimaryNavigation.links">
+        <sui-menu pointing secondary v-if="!$apollo.loading && menuPrimaryNavigation">
           <router-link is="sui-menu-item" to="/" :active="isActive({ slug: 'home' })">Home</router-link>
           <router-link is="sui-menu-item" to="/news" :active="isActive({ slug: 'news' })">News</router-link>
           <router-link
             is="sui-menu-item"
-            v-for="item in menuPrimaryNavigation.links"
+            v-for="item in menuPrimaryNavigation"
             :key="item.id"
             :active="isActive(item)"
             :content="item.title"
@@ -20,12 +20,12 @@
       </main>
       <footer>
         <sui-container>
-          <sui-menu text v-if="!$apollo.loading && menuFooter && menuFooter.links">
+          <sui-menu text v-if="!$apollo.loading && menuFooter">
             <router-link is="sui-menu-item" to="/" :active="isActive({ slug: 'home' })">Home</router-link>
             <router-link is="sui-menu-item" to="/news" :active="isActive({ slug: 'news' })">News</router-link>
             <router-link
               is="sui-menu-item"
-              v-for="item in menuFooter.links"
+              v-for="item in menuFooter"
               :active="isActive(item)"
               :key="item.id"
               :content="item.title"
@@ -40,6 +40,7 @@
 
 <script>
 import { MAIN_MENU_QUERY, FOOTER_MENU_QUERY } from '../queries'
+import { mapGetters } from 'vuex'
 
 export default {  
   methods: {
@@ -57,14 +58,25 @@ export default {
       return;
     }
   },
-  apollo: {
-    menuPrimaryNavigation: {
-      query: MAIN_MENU_QUERY
-    },
-    menuFooter: {
-      query: FOOTER_MENU_QUERY
-    }
+  computed: {
+    ...mapGetters({ menuPrimaryNavigation: 'content/headerMenuItems', menuFooter: 'content/footerMenuItems'})
   },
+  async mounted () {
+    let { data } = await this.$apollo.query({ query: MAIN_MENU_QUERY, variables: { } });
+    console.log('Got my data ... ', data);
+    this.$store.dispatch('content/addHeaderMenuItems', data.menuPrimaryNavigation.links)
+    let footer = await this.$apollo.query({ query: FOOTER_MENU_QUERY, variables: {} })
+    console.log('Got my footer ... ', footer);
+    this.$store.dispatch('content/addFooterMenuItems', footer.data.menuFooter.links)
+  },
+  // apollo: {
+  //   menuPrimaryNavigation: {
+  //     query: MAIN_MENU_QUERY
+  //   },
+  //   menuFooter: {
+  //     query: FOOTER_MENU_QUERY
+  //   }
+  // },
 
 }
 </script>
@@ -117,9 +129,6 @@ html {
   color: #fff;
   background-color: #35495e;
 }
-</style>
-
-<style scoped>
 
 #site-wrapper {
   height: 100vh;
