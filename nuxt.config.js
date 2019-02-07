@@ -1,4 +1,5 @@
 const pkg = require('./package')
+const pages = require('./pageURLS.json')
 
 module.exports = {
   mode: 'universal',
@@ -67,10 +68,6 @@ module.exports = {
     }
   },
   generate: {
-    routes: [
-      '/about-us',
-      '/gallery',
-      '/privacy-policy'
-    ]
+    routes: pages
   }
 }
