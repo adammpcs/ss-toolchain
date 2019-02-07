@@ -45,7 +45,7 @@
 <script>
 import gql from 'graphql-tag'
 import { enableExperimentalFragmentVariables } from 'graphql-tag'
-import { PAGE_QUERY } from '~/queries;
+import { PAGE_QUERY } from '~/queries';
 import AppCarousel from '~/components/AppCarousel'
 import FeatureCallout from '~/components/FeatureCallout'
 import PDFEmbed from '~/components/PDFEmbed'

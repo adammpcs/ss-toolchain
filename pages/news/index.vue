@@ -21,7 +21,7 @@
 
 <script>
 import gql from 'graphql-tag'
-import { NEWS_QUERY } from '~/queries
+import { NEWS_QUERY } from '~/queries'
 
 export default {
   apollo: {
