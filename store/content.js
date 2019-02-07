@@ -1,3 +1,5 @@
+import { MAIN_MENU_QUERY, FOOTER_MENU_QUERY } from '../queries'
+
 const state = () => ({
   content: [],
   headerMenu: [],
@@ -22,12 +24,12 @@ const actions = {
     if (existing)
       commit('setContent', [...allcontent.slice(), content]);
   },
-  addHeaderMenuItems: ({ state, commit }, items) => {
-    console.log('Adding header items ... ', items);
-    commit('setHeaderMenu', items);
-  },
-  addFooterMenuItems: ({ state, commit }, items) => {
-    commit('setFooterMenu', items);
+  async nuxtServerInit({ commit }, context) {
+    console.log('Running server init ... ', context.app.apolloProvider.defaultClient)
+    let { data } = await context.app.apolloProvider.defaultClient.query({ query: MAIN_MENU_QUERY, variables: { } })
+    commit('setHeaderMenu', data.menuPrimaryNavigation.links)
+    let footer = await context.app.apolloProvider.defaultClient.query({ query: FOOTER_MENU_QUERY, variables: { } })
+    commit('setFooterMenu', footer.data.menuFooter.links)
   }
 };
 

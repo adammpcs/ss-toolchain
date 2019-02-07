@@ -60,15 +60,7 @@ export default {
   },
   computed: {
     ...mapGetters({ menuPrimaryNavigation: 'content/headerMenuItems', menuFooter: 'content/footerMenuItems'})
-  },
-  async mounted () {
-    let { data } = await this.$apollo.query({ query: MAIN_MENU_QUERY, variables: { } });
-    console.log('Got my data ... ', data);
-    this.$store.dispatch('content/addHeaderMenuItems', data.menuPrimaryNavigation.links)
-    let footer = await this.$apollo.query({ query: FOOTER_MENU_QUERY, variables: {} })
-    console.log('Got my footer ... ', footer);
-    this.$store.dispatch('content/addFooterMenuItems', footer.data.menuFooter.links)
-  },
+  }
   // apollo: {
   //   menuPrimaryNavigation: {
   //     query: MAIN_MENU_QUERY
