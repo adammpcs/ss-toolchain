@@ -184,6 +184,5 @@ export const PAGE_QUERY = gql`
         ${fragments.feature}
       }
     }
-  }
-  
+  }  
 `

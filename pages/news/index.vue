@@ -20,7 +20,24 @@
 </template>
 
 <script>
-import { NEWS_QUERY } from '../../queries';
+import gql from 'graphql-tag'
+// import { NEWS_QUERY } from '../../queries';
+const NEWS_QUERY = gql`
+  {
+    allNews {
+      id
+      _createdAt
+      featuredImage {
+        title
+        id
+        url
+      }
+      content
+      slug
+      title
+    }
+  }
+`
 
 export default {
   apollo: {
