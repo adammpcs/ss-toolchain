@@ -11,6 +11,7 @@
           <sui-card-meta>{{ news._createdAt | formatDate }}</sui-card-meta>
           <sui-card-description>
             <div class="news-content" v-html="news.content"></div>
+            <p><router-link :to="'/news/' + news.slug">Read more</router-link></p>
           </sui-card-description>
         </sui-card-content>
       </sui-card>
@@ -26,7 +27,7 @@ export default {
     allNews: {
       query: NEWS_QUERY
     }
-  },  
+  },
 }
 </script>
 
