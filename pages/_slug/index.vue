@@ -11,6 +11,7 @@
       <sui-container>
       <sui-divider hidden />   
       <h1>{{ page.title }}</h1>
+      <h2>Testing</h2>
       <sui-divider hidden />   
       <div v-if="page.content">
         <div v-for="block in page.content" :key="block.id">
