@@ -1,0 +1,166 @@
+fragment TextRecord on Page {
+  id
+  content
+}
+
+fragment GalleryRecord on Page {
+  id
+  images {
+    alt
+    height
+    size
+    title
+    url
+    width
+  }
+}
+
+fragment PdfEmbedRecord on Page {
+  id
+  document {
+    alt
+    format
+    height
+    size
+    title
+    url
+    width
+  }
+}
+
+fragment CarouselRecord on Page {
+  id
+  images {
+    alt
+    height
+    size
+    title
+    url
+    width
+  }
+}
+
+fragment ThreeColumnFeatureRecord on Page {
+  column1
+  column1Image {
+    alt
+    height
+    size
+    title
+    url
+    width
+  }
+  column2
+  column2Image {
+    alt
+    height
+    size
+    title
+    url
+    width
+  }
+  column3
+  column3Image {
+    alt
+    height
+    size
+    title
+    url
+    width
+  }
+}
+
+fragment FeatureCalloutRecord on Page {
+  id
+  text
+  backgroundColor { hex }
+  backgroundImage {
+    alt
+    height
+    size
+    title
+    url
+    width
+  }
+}
+
+query OtherPage($slug: String!) {
+  page(filter: { slug: {
+    eq: $slug
+  } }) {
+    title
+    featuredImage {
+      alt
+      height
+      size
+      title
+      url
+      width
+    }
+    content {
+      ... on TextRecord {
+        content
+      }
+      ... on GalleryRecord {
+        images { url }
+      }
+    }
+  }
+}
+
+
+query Page($slug: String!) {
+  page(filter: { slug: {
+    eq: $slug
+  } }) {
+    title
+    metaTags {
+      title
+    }
+    featuredImage {
+    alt
+    height
+    size
+    title
+    url
+    width
+  }
+    content {
+      ... on TextRecord {
+        content
+      }
+      ... on ThreeColumnFeatureRecord {
+        column1
+        column1Image { url }
+        column2
+        column2Image { url }
+        column3
+        column3Image { url }
+      }
+      ... on CarouselRecord {
+        images { url }
+        duration
+      }
+      ... on FeatureCalloutRecord {
+        text
+        backgroundColor { hex }
+        backgroundImage { url }
+      }
+      ... on GalleryRecord {
+        images { url }
+      }
+      ... on PdfEmbedRecord {
+        document { url }
+      }
+    }
+  }
+}
+
+query SimplePage($slug: String!) {
+        page(filter: { slug: {
+          eq: $slug
+        } }) {
+          title,
+          content
+        }
+      }
