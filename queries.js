@@ -149,6 +149,37 @@ export const NEWS_QUERY = gql`
   }
 `
 
+export const NEWS_ITEM_QUERY = gql`
+  query News($slug: String!) {
+  news(filter: { slug: {
+    eq: $slug
+  } }) {
+      id
+      _createdAt
+      featuredImage {
+        title
+        id
+        url
+      }
+      content
+      slug
+      title
+      seo {
+        title,
+        description,
+        image {
+          alt
+          height
+          size
+          title
+          url
+          width
+        }
+      }
+    }
+  }
+`
+
 export const PAGE_QUERY = gql`
   query Page($slug: String!) {
     page(filter: { slug: {

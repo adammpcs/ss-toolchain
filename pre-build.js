@@ -1,5 +1,6 @@
 const fetch = require('node-fetch');
 const fs = require('fs');
+require('dotenv').config();
 
 fetch(`https://graphql.datocms.com`, {
   method: 'POST',

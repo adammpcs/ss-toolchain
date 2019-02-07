@@ -3,10 +3,9 @@
     <div v-if="!page">
       <h2>Loading</h2>
     </div>
-    <sui-container v-else fluid>
-      <sui-divider hidden />      
+    <sui-container v-else fluid> 
       <div class="feature-image" v-if="page.featuredImage && page.featuredImage.url">
-        <img :src="page.featuredImage.url" />
+        <img :src="src" :srcset="srcSet" />
       </div>
       <sui-container>
       <sui-divider hidden />   
@@ -62,20 +61,26 @@ export default {
     ThreeColumnFeature
   },
   computed: {
-    ...mapGetters({ data: 'seo/allSEO'}),
+    ...mapGetters({ data: 'content/all'}),
     page() {
-      return (this.data) ? this.data.find(s => s.id === 'about-us').data : {}
+      return (this.data) ? this.data.find(s => s.id === this.$route.params.slug).data : {}
+    },
+    srcSet() {
+      return this.src + '&fit=crop&dpr=1 1x,'
+        + this.src + '&fit=max&q=80&dpr=2 2x,'
+        + this.src + '&fit=max&q=40&dpr=3 3x'
+    },
+    src() {
+      return this.page.featuredImage.url + '?h=480&w=1600&auto=enhance';
     }
   },
   head() {
-    const storeData = this.$store.getters['seo/allSEO']
-    const pageData = storeData.find(s => s.id === 'about-us').data
-    console.log('Head ... ', pageData)
+    const storeData = this.$store.getters['content/all']
+    const pageData = storeData.find(s => s.id === this.$route.params.slug).data
     if (pageData && pageData.metaTags) {
       const meta = {
         title: pageData.metaTags.title,
         meta: [
-          // hid is used as unique identifier. Do not use `vmid` for it as it will not work
           { hid: 'description', name: 'description', content: pageData.metaTags.description }          
         ]
       };
@@ -87,7 +92,7 @@ export default {
   },
   async asyncData ({ route, app, store }) {
     let { data } = await app.apolloProvider.defaultClient.query({ query: PAGE_QUERY, variables: { slug: route.params.slug } });
-    store.dispatch('seo/addSEO', { id: 'about-us', data: data.page })
+    store.dispatch('content/addContent', { id: route.params.slug, data: data.page })
   },
   // created() {
   //   console.log('Created ... ', this.page);
