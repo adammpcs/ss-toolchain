@@ -12,6 +12,6 @@ export default function () {
   return {
     cache,
     httpEndpoint: "https://graphql.datocms.com",
-    getAuth     : () => `Bearer ${process.env.token}`
+    getAuth     : () => `Bearer ${process.env.API_TOKEN}`
   };
 }

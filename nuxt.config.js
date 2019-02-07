@@ -7,7 +7,6 @@ module.exports = {
   ** Environment Files
   */
  env: {
-  old_token: '',
  },
 
   /*
