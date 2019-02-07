@@ -40,7 +40,7 @@ import FeatureCallout from '~/components/FeatureCallout'
 import PDFEmbed from '~/components/PDFEmbed'
 import Gallery from '~/components/Gallery'
 import ThreeColumnFeature from '~/components/ThreeColumnFeature'
-import { PAGE_QUERY } from '~queries'
+import { PAGE_QUERY } from '~/queries
 
 export default {
   components: {
