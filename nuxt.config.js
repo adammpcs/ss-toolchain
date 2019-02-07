@@ -7,7 +7,7 @@ module.exports = {
   ** Environment Files
   */
  env: {
-  token: 'bda5fd043b50541cbaf132f0ab83e5',
+  old_token: '',
  },
 
   /*
