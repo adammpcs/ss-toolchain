@@ -61,34 +61,34 @@ export default {
     Gallery,
     ThreeColumnFeature
   },
-  // computed: {
-  //   ...mapGetters({ data: 'seo/allSEO'}),
-  //   page() {
-  //     return (this.data) ? this.data.find(s => s.id === 'about-us').data : {}
-  //   }
-  // },
-  // head() {
-  //   const storeData = this.$store.getters['seo/allSEO']
-  //   const pageData = storeData.find(s => s.id === 'about-us').data
-  //   console.log('Head ... ', pageData)
-  //   if (pageData && pageData.metaTags) {
-  //     const meta = {
-  //       title: pageData.metaTags.title,
-  //       meta: [
-  //         // hid is used as unique identifier. Do not use `vmid` for it as it will not work
-  //         { hid: 'description', name: 'description', content: pageData.metaTags.description }          
-  //       ]
-  //     };
-  //     if (pageData.metaTags.image !== null) {
-  //       meta.meta.push({ hid: 'og:image', name: 'og:image', content: pageData.metaTags.image.url + '?h=300&w=560&auto=enhance'})
-  //     }
-  //     return meta;
-  //   }
-  // },
-  // async asyncData ({ route, app, store }) {
-  //   let { data } = await app.apolloProvider.defaultClient.query({ query: PAGE_QUERY, variables: { slug: route.params.slug } });
-  //   store.dispatch('seo/addSEO', { id: 'about-us', data: data.page })
-  // },
+  computed: {
+    ...mapGetters({ data: 'seo/allSEO'}),
+    page() {
+      return (this.data) ? this.data.find(s => s.id === 'about-us').data : {}
+    }
+  },
+  head() {
+    const storeData = this.$store.getters['seo/allSEO']
+    const pageData = storeData.find(s => s.id === 'about-us').data
+    console.log('Head ... ', pageData)
+    if (pageData && pageData.metaTags) {
+      const meta = {
+        title: pageData.metaTags.title,
+        meta: [
+          // hid is used as unique identifier. Do not use `vmid` for it as it will not work
+          { hid: 'description', name: 'description', content: pageData.metaTags.description }          
+        ]
+      };
+      if (pageData.metaTags.image !== null) {
+        meta.meta.push({ hid: 'og:image', name: 'og:image', content: pageData.metaTags.image.url + '?h=300&w=560&auto=enhance'})
+      }
+      return meta;
+    }
+  },
+  async asyncData ({ route, app, store }) {
+    let { data } = await app.apolloProvider.defaultClient.query({ query: PAGE_QUERY, variables: { slug: route.params.slug } });
+    store.dispatch('seo/addSEO', { id: 'about-us', data: data.page })
+  },
   // created() {
   //   console.log('Created ... ', this.page);
   // }
@@ -96,38 +96,38 @@ export default {
   //   return await app.apolloProvider.defaultClient.query({ query: PAGE_QUERY, variables: { slug: route.params.slug } })
   //     .then(({ data }) => data);
   // },
-  apollo: {
-    page: {
-      query: PAGE_QUERY,
-      prefetch({route}) {
-        return {
-          slug: route.params.slug
-        }
-      },
-      variables() {
-        return {
-          slug: this.$route.params.slug,
-        }
-      }
-    }
-  },
-  head() {
-    if (this.page && this.page.metaTags) {
-      const meta = {
-        title: this.page.metaTags.title,
-        meta: [
-          // hid is used as unique identifier. Do not use `vmid` for it as it will not work
-          { hid: 'description', name: 'description', content: this.page.metaTags.description }          
-        ]
-      };
-      if (this.page.metaTags.image !== null) {
-        meta.meta.push({ hid: 'og:image', name: 'og:image', content: this.page.metaTags.image.url + '?h=300&w=560&auto=enhance'})
-      }
-      return meta;
-    } else {
-      return { title: 'Demo' }
-    }
-  },
+  // apollo: {
+  //   page: {
+  //     query: PAGE_QUERY,
+  //     prefetch({route}) {
+  //       return {
+  //         slug: route.params.slug
+  //       }
+  //     },
+  //     variables() {
+  //       return {
+  //         slug: this.$route.params.slug,
+  //       }
+  //     }
+  //   }
+  // },
+  // head() {
+  //   if (this.page && this.page.metaTags) {
+  //     const meta = {
+  //       title: this.page.metaTags.title,
+  //       meta: [
+  //         // hid is used as unique identifier. Do not use `vmid` for it as it will not work
+  //         { hid: 'description', name: 'description', content: this.page.metaTags.description }          
+  //       ]
+  //     };
+  //     if (this.page.metaTags.image !== null) {
+  //       meta.meta.push({ hid: 'og:image', name: 'og:image', content: this.page.metaTags.image.url + '?h=300&w=560&auto=enhance'})
+  //     }
+  //     return meta;
+  //   } else {
+  //     return { title: 'Demo' }
+  //   }
+  // },
 }
 </script>
 
